@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {            
+            "label": "publish",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [         
+                "publish",       
+                "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",               
+                "-o", "build/macos"
+            ]
+        }
+    ]
+} 

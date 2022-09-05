@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.vs": false,
+			"**/.vscode": false,
+			"**/obj": true,
+			"**/bin": true,
+			"Global.json": false,
+			"*.sln": false,
+			"Build": false,
+			"**/*node_modules": true,
+			"Packages": false,
+			".gitignore":false,
+			".dockerignore":false,
+			"**/*.user":true,
+		}
+	}
+}

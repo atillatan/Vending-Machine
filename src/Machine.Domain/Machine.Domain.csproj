@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>Atilla Tanrikulu</Authors>    
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Data" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.ComponentModel.DataAnnotations" />
+    <Using Include="System.ComponentModel.DataAnnotations.Schema" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>  
+
+</Project>

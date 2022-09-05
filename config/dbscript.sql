@@ -1,0 +1,87 @@
+-- DROP TABLE IF EXISTS COIN;
+-- DROP TABLE IF EXISTS PRODUCT;
+-- DROP TABLE IF EXISTS PRODUCT_PRICE;
+-- DROP TABLE IF EXISTS LANGUAGE 
+
+-- COIN
+CREATE TABLE IF NOT EXISTS COIN
+  (    
+    CoinId  DECIMAL(3.2) NOT NULL,  
+    Count INT NOT NULL,
+    PRIMARY KEY (CoinId)
+);
+
+-- PRODUCT
+CREATE TABLE IF NOT EXISTS PRODUCT
+  (    
+    SlotId  VARCHAR(255) NOT NULL,  
+    ProductId  INT NOT NULL,  
+    ProductName  VARCHAR(255) NOT NULL,  
+    RemainingStock INT NOT NULL,
+    Capacity INT NOT NULL,
+    PRIMARY KEY (SlotId,ProductId)
+);
+
+-- PRODUCT_PRICE
+CREATE TABLE IF NOT EXISTS PRODUCT_PRICE
+  (    
+    ProductId  INT NOT NULL,  
+    CurrencyId VARCHAR(10) NOT NULL,
+    Price  NUMERI(3.2) NOT NULL,  
+    PRIMARY KEY (ProductId,CurrencyId)
+);
+
+-- LANGUAGE
+CREATE TABLE IF NOT EXISTS LANGUAGE
+  (
+    LanguageId  VARCHAR(255) NOT NULL,
+    MessageKey  VARCHAR(255) NOT NULL,  
+    Message  Text NOT NULL,
+    PRIMARY KEY (LanguageId,MessageKey)
+);
+
+
+-- INITIAL DATA
+INSERT INTO COIN (CoinId, Count) SELECT '2.00', 5 WHERE NOT EXISTS (SELECT 1 FROM COIN WHERE CoinId = '2.00'); 
+INSERT INTO COIN (CoinId, Count) SELECT '1.00', 5 WHERE NOT EXISTS (SELECT 1 FROM COIN WHERE CoinId = '1.00');
+INSERT INTO COIN (CoinId, Count) SELECT '0.50', 5 WHERE NOT EXISTS (SELECT 1 FROM COIN WHERE CoinId = '0.50');
+INSERT INTO COIN (CoinId, Count) SELECT '0.20', 5 WHERE NOT EXISTS (SELECT 1 FROM COIN WHERE CoinId = '0.20');
+INSERT INTO COIN (CoinId, Count) SELECT '0.10', 5 WHERE NOT EXISTS (SELECT 1 FROM COIN WHERE CoinId = '0.10');
+INSERT INTO COIN (CoinId, Count) SELECT '0.05', 5 WHERE NOT EXISTS (SELECT 1 FROM COIN WHERE CoinId = '0.05');
+
+INSERT INTO PRODUCT (SlotId, ProductId, ProductName, RemainingStock, Capacity) SELECT 'A1', 1, 'Cola ', 15, 15 WHERE NOT EXISTS (SELECT 1 FROM PRODUCT WHERE SlotId = 'A1' and ProductId=1);
+INSERT INTO PRODUCT (SlotId, ProductId, ProductName, RemainingStock, Capacity) SELECT 'A2', 2, 'Chips', 15, 15 WHERE NOT EXISTS (SELECT 1 FROM PRODUCT WHERE SlotId = 'A2' and ProductId=2);
+INSERT INTO PRODUCT (SlotId, ProductId, ProductName, RemainingStock, Capacity) SELECT 'A3', 3, 'Candy', 15, 15 WHERE NOT EXISTS (SELECT 1 FROM PRODUCT WHERE SlotId = 'A3' and ProductId=3);
+INSERT INTO PRODUCT (SlotId, ProductId, ProductName, RemainingStock, Capacity) SELECT 'B1', 1, 'Cola ', 5 , 15 WHERE NOT EXISTS (SELECT 1 FROM PRODUCT WHERE SlotId = 'B1' and ProductId=1);
+
+INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 1, 'EUR', '1.00' WHERE NOT EXISTS (SELECT 1 FROM PRODUCT_PRICE WHERE ProductId = 1 and CurrencyId='EUR' and ProductId=1); 
+INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 1, 'USD', '1.00' WHERE NOT EXISTS (SELECT 1 FROM PRODUCT_PRICE WHERE ProductId = 1 and CurrencyId='USD' and ProductId=1); 
+INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 2, 'EUR', '0.50' WHERE NOT EXISTS (SELECT 1 FROM PRODUCT_PRICE WHERE ProductId = 1 and CurrencyId='EUR' and ProductId=2); 
+INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 2, 'USD', '0.50' WHERE NOT EXISTS (SELECT 1 FROM PRODUCT_PRICE WHERE ProductId = 1 and CurrencyId='USD' and ProductId=2); 
+INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 3, 'EUR', '0.65' WHERE NOT EXISTS (SELECT 1 FROM PRODUCT_PRICE WHERE ProductId = 1 and CurrencyId='EUR' and ProductId=3); 
+INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 3, 'USD', '0.65' WHERE NOT EXISTS (SELECT 1 FROM PRODUCT_PRICE WHERE ProductId = 1 and CurrencyId='USD' and ProductId=3); 
+
+
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','INSERT_COIN', 'INSERT COIN' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'INSERT_COIN');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','AMOUNT_ENTERED', 'Amount entered' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'AMOUNT_ENTERED');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','REMAINING_AMOUNT', 'Remaining amount' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'REMAINING_AMOUNT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','SELECTED_PRODUCT', 'Selected product' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'SELECTED_PRODUCT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','PLEASE_TAKE_YOUR_CHANGE', 'Please take your change' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'PLEASE_TAKE_YOUR_CHANGE');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','THANK_YOU', 'THANK YOU' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'THANK_YOU');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','RETURNED_MONEY', 'Returned money' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'RETURNED_MONEY');
+
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','INSERT_COIN',              'MÜNZE EINFÜGEN.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'INSERT_COIN');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','AMOUNT_ENTERED',           'Eingegebener Betrag.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'AMOUNT_ENTERED');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','REMAINING_AMOUNT',         'Verbleibender Betrag.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'REMAINING_AMOUNT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','SELECTED_PRODUCT',         'Ausgewähltes Produkt.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'SELECTED_PRODUCT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','PLEASE_TAKE_YOUR_CHANGE',  'Bitte nehmen Sie Ihr Wechselgeld.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'PLEASE_TAKE_YOUR_CHANGE');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','THANK_YOU',                'DANKESCHÖN.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'THANK_YOU');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','RETURNED_MONEY',           'Zurückgegebenes Geld.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'RETURNED_MONEY'); 
+
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','INSERT_COIN',              'INSERT COIN.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'INSERT_COIN');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','AMOUNT_ENTERED',           'Montant saisi.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'AMOUNT_ENTERED');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','REMAINING_AMOUNT',         'Montant restant.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'REMAINING_AMOUNT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','SELECTED_PRODUCT',         'Produit sélectionné.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'SELECTED_PRODUCT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','PLEASE_TAKE_YOUR_CHANGE',  'Veuillez prendre votre monnaie.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'PLEASE_TAKE_YOUR_CHANGE');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','THANK_YOU',                'MERCI' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'THANK_YOU');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','RETURNED_MONEY',           'Retour de l"argent.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'RETURNED_MONEY'); 
