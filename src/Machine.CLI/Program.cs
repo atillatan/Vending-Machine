@@ -7,6 +7,8 @@ using Machine.Infrastructure.Persistence;
 using Machine.Application.Common.Interfaces;
 using Machine.Infrastructure.Services.Languages;
 using vmachine;
+using Serilog;
+using Serilog.Events;
 
 // Initialize Configuration
 IConfiguration configuration = new ConfigurationBuilder()
@@ -14,6 +16,11 @@ IConfiguration configuration = new ConfigurationBuilder()
             .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + "/appsettings.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables()
             .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Error()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Error)   
+    .CreateLogger();
 
 // Create ServiceCollection for required services
 ServiceProvider svcProvider = new ServiceCollection()

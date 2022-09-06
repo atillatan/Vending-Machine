@@ -1,10 +1,10 @@
-#!/bin/sh
-#Build.sh
+!/bin/sh
+Build.sh
 
 ver=$(cat ../src/Machine.CLI/appsettings.production.json|awk -F'"' '/"version": ".+"/{ print $4; exit; }')
 export ASPNETCORE_ENVIRONMENT=Development
 export BUILD_CONFIGURATION=Release
-export PUBLISH_PATH=Build
+export PUBLISH_PATH=build
 export BUILD_VERSION='{ "version":"'${ver}'" }'
 export PACKAGEVERSION=2.1.0
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -61,22 +61,24 @@ echo "Tests started..."
 dotnet test tests/Machine.Infrastructure.UnitTests/Machine.Infrastructure.UnitTests.csproj
 
 @echo "Build CLI nuget package started..."
-dotnet pack src/Machine.CLI --include-source --output %PUBLISH_PATH%/machine-cli-nuget --verbosity n /p:PackageVersion=%PACKAGEVERSION% -c Pack
+dotnet pack src/Machine.CLI --include-source --output $PUBLISH_PATH/machine-cli-nuget --verbosity n /p:PackageVersion=$PACKAGEVERSION -c Pack
 
 @echo "Publish CLI started..."
-dotnet publish src/Machine.CLI -r win10-x64 --self-contained -c %BUILD_CONFIGURATION% --output "%PUBLISH_PATH%/windows-cli"
-xcopy "config" "%PUBLISH_PATH%/windows-cli/config"  %cpycmd%
+dotnet publish src/Machine.CLI -r osx-x64 --self-contained -c $BUILD_CONFIGURATION --output "$PUBLISH_PATH/macos-cli"
+xcopy "config" "$PUBLISH_PATH/macos-cli/config"  %cpycmd%
 
-echo %BUILD_VERSION% > "%PUBLISH_PATH%\windows-api\version.json"
+echo %BUILD_VERSION% > "$PUBLISH_PATH/macos-api/version.json"
 
 @echo "Build API nuget package started..."
-dotnet pack src/Machine.API --include-source --output %PUBLISH_PATH%/nuget --verbosity n /p:PackageVersion=%PACKAGEVERSION% -c Pack
+dotnet pack src/Machine.API --include-source --output $PUBLISH_PATH/nuget --verbosity n /p:PackageVersion=$PACKAGEVERSION -c Pack
 
 @echo "Publish API started..."
-dotnet publish src/Machine.API -r win10-x64 --self-contained -c %BUILD_CONFIGURATION% --output "%PUBLISH_PATH%/windows-api"
-xcopy "config" "%PUBLISH_PATH%/windows-api/config"  %cpycmd%
+dotnet publish src/Machine.API -r osx-x64 --self-contained -c $BUILD_CONFIGURATION --output "$PUBLISH_PATH/macos-api"
 
-cp -RTp Config $PUBLISH_PATH/linux/Config
-cp -RTp docs $PUBLISH_PATH/linux/wwwroot/docs
+cp -R ../config $PUBLISH_PATH/macos-cli
+cp -R ../config $PUBLISH_PATH/macos-api
+
 echo $BUILD_VERSION > version.json
-mv version.json $PUBLISH_PATH/linux
+mv version.json $PUBLISH_PATH/macos-cli
+echo $BUILD_VERSION > version.json
+mv version.json $PUBLISH_PATH/macos-api

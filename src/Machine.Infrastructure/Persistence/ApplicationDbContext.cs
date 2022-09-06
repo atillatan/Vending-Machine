@@ -29,7 +29,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {     
-        optionsBuilder.LogTo(Console.WriteLine); 
+        optionsBuilder.LogTo(Console.WriteLine).EnableSensitiveDataLogging(false); 
         string connectionString = _configuration.GetValue<string>("database.connectionString");
 
         _ = _configuration.GetValue<string>("database.providername") switch
