@@ -24,7 +24,7 @@ fi
 echo ============ CONFIG ============
 echo ASPNETCORE_ENVIRONMENT:$ASPNETCORE_ENVIRONMENT
 echo BUILD_CONFIGURATION:$BUILD_CONFIGURATION
-echo PUBLISH_PATH:$PUBLISH_PATH
+echo PUBLISH_PATH:build
 echo BUILD_VERSION:$BUILD_VERSION
 echo WORKSPACE:$WORKSPACE
 echo ================================
@@ -37,8 +37,7 @@ rm -rf src/Machine.Domain/bin src/Machine.Domain/obj
 rm -rf src/Machine.Application/bin src/Machine.Application/obj
 rm -rf src/Machine.Infrastructure/bin src/Machine.Infrastructure/obj
 rm -rf src/Machine.API/bin src/Machine.API/obj
-rm -rf tests/Machine.API.UnitTests/bin tests/Machine.API.UnitTests/obj
-rm -rf Build/linux/*
+rm -rf tests/Machine.Infrastructure.UnitTests/bin tests/Machine.Infrastructure.UnitTests/obj
 
 
 echo "Restore started..."
@@ -61,24 +60,25 @@ echo "Tests started..."
 dotnet test tests/Machine.Infrastructure.UnitTests/Machine.Infrastructure.UnitTests.csproj
 
 @echo "Build CLI nuget package started..."
-dotnet pack src/Machine.CLI --include-source --output $PUBLISH_PATH/machine-cli-nuget --verbosity n /p:PackageVersion=$PACKAGEVERSION -c Pack
+dotnet pack src/Machine.CLI --include-source --output build/machine-cli-nuget --verbosity n /p:PackageVersion=$PACKAGEVERSION -c Pack
 
 @echo "Publish CLI started..."
-dotnet publish src/Machine.CLI -r osx-x64 --self-contained -c $BUILD_CONFIGURATION --output "$PUBLISH_PATH/macos-cli"
-xcopy "config" "$PUBLISH_PATH/macos-cli/config"  %cpycmd%
+dotnet publish src/Machine.CLI -r osx-x64 --self-contained -c $BUILD_CONFIGURATION --output "build/macos-cli"
 
-echo %BUILD_VERSION% > "$PUBLISH_PATH/macos-api/version.json"
+echo %BUILD_VERSION% > "build/macos-api/version.json"
 
 @echo "Build API nuget package started..."
-dotnet pack src/Machine.API --include-source --output $PUBLISH_PATH/nuget --verbosity n /p:PackageVersion=$PACKAGEVERSION -c Pack
+dotnet pack src/Machine.API --include-source --output build/nuget --verbosity n /p:PackageVersion=$PACKAGEVERSION -c Pack
 
 @echo "Publish API started..."
-dotnet publish src/Machine.API -r osx-x64 --self-contained -c $BUILD_CONFIGURATION --output "$PUBLISH_PATH/macos-api"
+dotnet publish src/Machine.API -r osx-x64 --self-contained -c $BUILD_CONFIGURATION --output "build/macos-api"
 
-cp -R ../config $PUBLISH_PATH/macos-cli
-cp -R ../config $PUBLISH_PATH/macos-api
+cd ..
+cp -R config build/macos-cli
+cp -R config build/macos-api
+cd build
 
 echo $BUILD_VERSION > version.json
-mv version.json $PUBLISH_PATH/macos-cli
+mv version.json build/macos-cli
 echo $BUILD_VERSION > version.json
-mv version.json $PUBLISH_PATH/macos-api
+mv version.json build/macos-api
