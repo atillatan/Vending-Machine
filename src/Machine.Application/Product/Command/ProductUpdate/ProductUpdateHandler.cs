@@ -26,7 +26,7 @@ public class ProductUpdateHandler : IRequestHandler<ProductUpdateCommand, Produc
 
     public async Task<ProductDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Product.FindAsync(new string[] { command.ProductId.ToString(), command.SlotId }, cancellationToken);
+        var entity = await _dbContext.Product.FindAsync(new object?[] { command.SlotId, command.ProductId }, cancellationToken);
         if (entity == null) throw new NotFoundException(_lang.Translate("ERR_DATA_NOT_FOUND"));
 
 

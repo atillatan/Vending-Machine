@@ -284,11 +284,11 @@ $ ./vmachine --language DE --currency EUR
   - Kubernetes
 
 - VendingMachine microservice has four sub projects:  
-  - **Machine.Api:** Rest API interface, it provides only Rest API interfaces to the external world. it doesn't contains any business logic, it forwards all API calls to the "VendingMachine.Application" layer using an event-driven approach. 
-  - **Machine.Cli:** Command Line Interface, it provides only command interfaces to the external world. it doesn't contains any business logic, it forwards all request to the "VendingMachine.Application" layer using an event-driven approach.
+  - **Machine.Api:** Rest API interface, it provides only Rest API interfaces to the external world. This project stands for the data management purpose. It doesn't contains any business logic, it forwards all API calls to the "VendingMachine.Application" layer using an event-driven approach. 
+  - **Machine.Cli:** Command Line Interface, it provides only command interfaces to the external world. it doesn't contains any business logic, it forwards all request to the "VendingMachine.Infrastructure" layer using an DI approach.
   - **Machine.Application:**  This project contain `Command handlers` and `Query handlers` which together provide microservice functionality.   
   - **Machine.Domain:**  Domain Models, Aggregate root, Entities.
-  - **Machine.Infrastructure:** Data persistence infrastructure, External services.  
+  - **Machine.Infrastructure:** Data persistence infrastructure, and Services.  
 
 - Clean Architecture Layers (Onion view)
 

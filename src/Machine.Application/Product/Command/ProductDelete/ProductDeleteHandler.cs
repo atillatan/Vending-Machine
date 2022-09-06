@@ -19,7 +19,7 @@ public class ProductDeleteHandler : IRequestHandler<ProductDeleteCommand, bool>
 
     public async Task<bool> Handle(ProductDeleteCommand command, CancellationToken cancellationToken)
     {
-        var entity = await _dBContext.Product.FindAsync(new string[] { command.ProductId, command.SlotId }, cancellationToken);
+        var entity = await _dBContext.Product.FindAsync(new object?[] { command.SlotId, command.ProductId }, cancellationToken);
         if (entity == null) throw new NotFoundException(_lang.Translate("ERR_DATA_NOT_FOUND"));
 
         _dBContext.Product.Remove(entity);

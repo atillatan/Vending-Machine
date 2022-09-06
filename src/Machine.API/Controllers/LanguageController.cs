@@ -52,7 +52,8 @@ public class LanguageController : ControllerBase
     /// <summary>        
     /// Get the LanguageDto for the instance with the given key.       
     /// </summary>
-    /// <param name="id" example="uuid">It must be unique with key parameter</param>        
+    /// <param name="languageId" example="uuid">It must be unique with key parameter</param>        
+    /// <param name="messageKey" example="uuid">It must be unique with messageKey parameter</param>        
     /// <param name="cancellationToken" example="">CancellationToken provides to Cancel the current operation, all data will be rollback</param>
     /// <returns>Returns LanguageDto</returns>
     /// <response code="200">Successful operation</response>
@@ -61,11 +62,11 @@ public class LanguageController : ControllerBase
     [ProducesResponseType(typeof(LanguageDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{id}")]
-    public async Task<ActionResult<LanguageDto>> GetLanguage([FromRoute] string languageId, CancellationToken cancellationToken)
+    [HttpGet("{languageId}/{messageKey}")]
+    public async Task<ActionResult<LanguageDto>> GetLanguage([FromRoute] string languageId, [FromRoute] string messageKey, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(languageId)) return BadRequest();
-        var result = await _mediator.Send(new LanguageFindByKeyQuery { LanguageId = languageId }, cancellationToken);
+        var result = await _mediator.Send(new LanguageFindByKeyQuery { LanguageId = languageId, MessageKey = messageKey }, cancellationToken);
         return result != null ? Ok(result) : NotFound();
     }
 
@@ -93,7 +94,8 @@ public class LanguageController : ControllerBase
     /// Delete the identified Language from the Machine
     /// </summary>
     /// <param name="cancellationToken" example="">CancellationToken provides to Cancel the current operation, all data will be rollback</param>
-    /// <param name="id" example="uuid">It must be unique with key parameter</param>            
+    /// <param name="languageId" example="uuid">It must be unique with key parameter</param>            
+    /// <param name="messageKey" example="uuid">It must be unique with key parameter</param>            
     /// <returns>true if the language was found and deleted, false was not deleted.</returns>
     /// <response code="200">Successful operation</response>
     /// <response code="400">Invalid parameters supplied</response>         
@@ -101,10 +103,10 @@ public class LanguageController : ControllerBase
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<bool>> DeleteLanguage([FromRoute] string languageId, CancellationToken cancellationToken)
+    [HttpDelete("{languageId}/messageKey")]
+    public async Task<ActionResult<bool>> DeleteLanguage([FromRoute] string languageId,[FromRoute] string messageKey, CancellationToken cancellationToken)
     {
-         if (string.IsNullOrEmpty(languageId)) return BadRequest();
+        if (string.IsNullOrEmpty(languageId)) return BadRequest();
         var result = await _mediator.Send(new LanguageDeleteCommand { LanguageId = languageId }, cancellationToken);
         return Ok(result);
     }
@@ -113,7 +115,7 @@ public class LanguageController : ControllerBase
     /// Get all or  Language list.
     /// </summary>        
     /// <param name="cancellationToken" example="">CancellationToken provides to Cancel the current operation</param>
-    /// <returns>List of Settins objects</returns>
+    /// <returns>List of Language objects</returns>
     /// <response code="200">Successful operation</response>
     /// <response code="400">Invalid parameters supplied</response>         
     /// <response code="404">Object not found</response>
@@ -130,21 +132,21 @@ public class LanguageController : ControllerBase
     /// <summary>
     /// Get all or  Language list.
     /// </summary>   
-    /// <param name="code" example="de-DE">language code parameter</param>                 
-    /// <param name="cancellationToken" example="">CancellationToken provides to Cancel the current oparation</param>
-    /// <returns>List of Settins objects</returns>
+    /// <param name="languageId" example="de-DE">language code parameter</param>                 
+    /// <param name="cancellationToken" example="">CancellationToken provides to Cancel the current operation</param>
+    /// <returns>List of Language objects</returns>
     /// <response code="200">Successful operation</response>
     /// <response code="400">Invalid parameters supplied</response>         
     /// <response code="404">Object not found</response>
     [ProducesResponseType(typeof(IEnumerable<LanguageDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{languageid}")]
-    public async Task<ActionResult<IEnumerable<LanguageDto>>> GetLanguageByCode([FromRoute] string languageid, CancellationToken cancellationToken)
+    [HttpGet("{languageId}")]
+    public async Task<ActionResult<IEnumerable<LanguageDto>>> GetLanguageByCode([FromRoute] string languageId, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new LanguageGetAllQuery(), cancellationToken);
 
-        var newResult = result.Where(x => x.LanguageId.ToLower() == languageid.ToLower());
+        var newResult = result.Where(x => x.LanguageId.ToLower() == languageId.ToLower());
         Dictionary<string, string> kvpairs = new Dictionary<string, string>();
 
         foreach (var item in newResult)

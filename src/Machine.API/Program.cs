@@ -48,7 +48,7 @@ try
     builder.Services.AddSwaggerDocumentation(configuration);
     builder.Services.AddHealthChecks();
     builder.Services.AddCors(options => { options.AddPolicy("CorsPolicy", builder => builder.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed((host) => true).AllowCredentials()); });
-    builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);    
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 

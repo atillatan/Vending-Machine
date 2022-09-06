@@ -49,7 +49,7 @@ public class VendingMachineService : IVendingMachine
                         select new ProductDto
                         {
                             ProductId = g.Key,
-                            ProductName = g.Select(a => a.ProductName).FirstOrDefault(),
+                            ProductName = g.Select(a => a.ProductName).FirstOrDefault()!,
                             ProductPrice = this._productPrices!.Where(b => b.ProductId == g.Key && b.CurrencyId == this._currency).FirstOrDefault<ProductPrice>()!.Price,
                             RemainingStock = g.Sum(b => b.RemainingStock),
                             Capacity = g.Sum(c => c.Capacity)
@@ -76,11 +76,20 @@ public class VendingMachineService : IVendingMachine
         // Validate if accepted coin type
         if (!_coinInventory.ContainsKey(coin)) throw new InvalidCoinException();
 
-        // Add the coin to the current balance
-        this.CurrentBalance += coin;
+        // Update database
+        var coinEntity = _dbContext.Coin.Where(x => x.CoinId == coin).FirstOrDefault();
+        if (coinEntity != null)
+        {
+            coinEntity.Count += 1;
+            _dbContext.Coin.Update(coinEntity);
+            _dbContext.SaveChanges();
 
-        // Add tho to the coinInventory
-        this._coinInventory[coin] += 1;        
+            // Add the coin to the current balance
+            this.CurrentBalance += coin;
+        }
+
+        // Reload data
+        this._coinInventory = this._dbContext.Coin.ToDictionary(x => x.CoinId, y => y.Count);
     }
 
     public Dictionary<decimal, int> ReturnCustomerCoins()
@@ -96,7 +105,17 @@ public class VendingMachineService : IVendingMachine
         {
             if (product.ProductId == this.SelectedProduct && product.RemainingStock > 0)
             {
-                product.RemainingStock -= 1;
+                // Update database
+                var productEntity = _dbContext.Product.Where(x => x.ProductId == product.ProductId && x.SlotId == product.SlotId).FirstOrDefault();
+
+                if (productEntity != null)
+                {
+                    productEntity.RemainingStock -= 1;
+                    _dbContext.Product.Update(productEntity);
+                    // product.RemainingStock -= 1;
+                    this._productInventory = this._dbContext.Product.ToList();
+                }
+
                 break;
             }
         }
@@ -119,9 +138,17 @@ public class VendingMachineService : IVendingMachine
             {
                 if (this._coinInventory[coin.Key] > 0)
                 {
-                    this._coinInventory[coin.Key] -= 1;
+                    var coinEntity = _dbContext.Coin.Where(x => x.CoinId == coin.Key).FirstOrDefault();
+
+                    if (coinEntity != null)
+                    {
+                        //this._coinInventory[coin.Key] -= 1;
+                        coinEntity.Count -= 1;
+                        _dbContext.Coin.Update(coinEntity);
+                    }
+
+                    // Collect change
                     changeToPay -= coin.Key;
-                    //this.CurrentBalance -= coin.Key;
                     if (!change.ContainsKey(coin.Key)) change.Add(coin.Key, 0);
                     change[coin.Key] += 1;
                 }
@@ -132,7 +159,10 @@ public class VendingMachineService : IVendingMachine
             }
         }
         this.CurrentBalance = 0;
-        // _dbContext.SaveChanges();
+
+        // Update database     
+        _dbContext.SaveChanges();
+        this._coinInventory = this._dbContext.Coin.ToDictionary(x => x.CoinId, y => y.Count);
         return change;
     }
 

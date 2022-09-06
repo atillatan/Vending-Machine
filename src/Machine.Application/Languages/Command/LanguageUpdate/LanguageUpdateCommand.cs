@@ -1,5 +1,3 @@
-using Machine.Application.Languages;
-
 namespace Machine.Application.Languages.Commands.LanguageUpdate;
 
 public class LanguageUpdateCommand : IRequest<LanguageDto>

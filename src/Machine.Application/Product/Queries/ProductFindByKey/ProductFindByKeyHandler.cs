@@ -24,7 +24,7 @@ public class ProductFindByKeyHandler : IRequestHandler<ProductFindByKeyQuery, Pr
 
     public async Task<ProductDto?> Handle(ProductFindByKeyQuery query, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Product.FindAsync(new string[] { query.ProductId.ToString(), query.SlotId }, cancellationToken);
+        var entity = await _dbContext.Product.FindAsync(new object?[] { query.SlotId, query.ProductId }, cancellationToken);
         if (entity == null) throw new NotFoundException(_lang.Translate("ERR_DATA_NOT_FOUND"));
 
         _logger.Debug($"operation completed Command:{query}");

@@ -4,63 +4,24 @@ using Machine.Application.Common.Interface;
 using Machine.Application.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-namespace vmachine;
-
-public class VendingMachineCommand
+public class VendingMachineCommandHandler
 {
-    private ServiceProvider? _svcProvider { get; set; }
+    private IServiceProvider? _svcProvider { get; set; }
 
     private IConfiguration? _configuration { get; set; }
 
     private ILanguageService _langSvc { get; set; } = default!;
 
-    public VendingMachineCommand(ServiceProvider serviceProvider)
+    public VendingMachineCommandHandler(IServiceProvider serviceProvider)
     {
         this._svcProvider = serviceProvider;
         this._configuration = _svcProvider!.GetRequiredService<IConfiguration>();
     }
 
-    /// <summary>
-    /// Creates the new RootCommand for CLI application
-    /// </summary>
-    /// <returns>RootCommand</returns>
-    public RootCommand BuildRootCommand()
-    {
-        // Read configuration
-        string defaultCurrency = _configuration.GetValue<string>("default.currency", "EUR");
-        string defaultLanguage = _configuration.GetValue<string>("default.language", "EN");
-        string name = _configuration.GetValue<string>("name", "Vending Machine");
-
-        // Add roodCommand options
-        var currencyOption = new Option<string>(
-            name: "--currency",
-            description: "currency accepted",
-            getDefaultValue: () => defaultCurrency);
-
-        var languageOption = new Option<string>(
-            name: "--language",
-            description: "selected language",
-            getDefaultValue: () => defaultLanguage);
-
-        // Create rootCommand
-        var rootCommand = new RootCommand(name);
-        rootCommand.AddOption(currencyOption);
-        rootCommand.AddOption(languageOption);
-
-        // Set rootCommand handler method
-        rootCommand.SetHandler((language, currency) =>
-            {
-                Run(language, currency, new CancellationTokenSource().Token);
-            },
-            languageOption, currencyOption);
-
-        return rootCommand;
-    }
-
     // RootCommand handler method
-    private void Run(string language, string currency, CancellationToken cancellationToken)
+    public async Task HandleAsync(string language, string currency, CancellationToken cancellationToken)
     {
+        Console.Title = _configuration.GetValue<string>("name","Vending Machine");
         Console.WriteLine("***********************************************************");
         Console.WriteLine("******************* WELCOME TO VENDING MACHINE  ***********");
         Console.WriteLine("***********************************************************");
@@ -93,7 +54,7 @@ public class VendingMachineCommand
 
             while (isRunning)
             {
-                string userInput = WaitValidUserInput();
+                string userInput = await WaitValidUserInputAsync(cancellationToken);
                 string enteredCommand = GetEnteredCommand(userInput);
                 try
                 {
@@ -147,6 +108,10 @@ public class VendingMachineCommand
                             PrintHelp();
                             break;
 
+                        case "UNKNOWN":
+                            await Console.Error.WriteLineAsync(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
+                            break;
+
                         case "EXIT":
                             isRunning = false;
                             break;
@@ -155,7 +120,7 @@ public class VendingMachineCommand
                             if (enteredCommand.Length < 3)
                                 Console.WriteLine("Please enter command first e.g. COMMAND <XXX>.  ENTER 0.65");
                             else
-                                Console.Error.WriteLine("Please enter valid command! for help please enter \"HELP\" ");
+                                Console.Error.WriteLine(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
                             break;
                     }
 
@@ -173,15 +138,16 @@ public class VendingMachineCommand
     }
 
     #region Helper Methods
+
     // Recursive function for waiting valid user input
-    private string WaitValidUserInput()
+    private async Task<string> WaitValidUserInputAsync(CancellationToken cancellationToken)
     {
         var input = Console.ReadLine();
 
         if (string.IsNullOrEmpty(input))
         {
-            Console.Error.WriteLine("Please enter valid command! for help please enter \"HELP\"");
-            return WaitValidUserInput();
+            await Console.Error.WriteLineAsync(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
+            return await WaitValidUserInputAsync(cancellationToken);
         }
 
         input = input!.Trim().ToUpper();
@@ -196,8 +162,8 @@ public class VendingMachineCommand
             return input;
         }
 
-        Console.Error.WriteLine("Please enter valid command! for help please enter \"HELP\"");
-        return WaitValidUserInput();
+        Console.Error.WriteLine(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
+        return await WaitValidUserInputAsync(cancellationToken);
     }
 
     private string GetEnteredCommand(string input)
@@ -226,7 +192,7 @@ public class VendingMachineCommand
         Console.WriteLine("Description:  ");
         Console.WriteLine("  Vending Machine");
         Console.WriteLine("");
-        Console.WriteLine("Usage:");
+        Console.WriteLine("Commands:");
         Console.WriteLine("  SHOW        : Then list of products. e.g SHOW");
         Console.WriteLine("  SELECT      : Choose which product do you want to buy. e.g SELECT <NUMBER> , SELECT 2");
         Console.WriteLine("  ENTER       : Enter valid coins (5cts to 2€). ENTER <XXX> e.g. : ENTER 0.65");
@@ -238,7 +204,7 @@ public class VendingMachineCommand
     {
         foreach (ProductDto product in productList)
         {
-            Console.WriteLine($"{product.ProductId}. {product.ProductName} -  {product.ProductPrice}{currency} - {product.RemainingStock} Items Left");
+            Console.WriteLine($"{product.ProductId}. {product.ProductName} -  {product.ProductPrice} {currency} - {product.RemainingStock} Items Left");
         }
     }
 
@@ -265,4 +231,5 @@ public class VendingMachineCommand
         return result;
     }
     #endregion
+
 }

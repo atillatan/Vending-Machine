@@ -56,11 +56,6 @@
                     "command": "xdg-open"
                 }
             }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach"
         }
     ]
 }

@@ -1,6 +1,3 @@
-using Machine.Application.Products;
-using Machine.Application.Products;
-
 namespace Machine.Application.Products.Commands.ProductUpdate;
 
 public class ProductUpdateCommand : IRequest<ProductDto>
