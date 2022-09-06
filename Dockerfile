@@ -15,14 +15,14 @@ EXPOSE 8101
 COPY . .
 
 # Publish 
-WORKDIR /Vending-Machine/Config
-RUN chmod +x Publish.sh
-RUN ./Publish.sh
+WORKDIR /Vending-Machine/build
+RUN chmod +x publish.sh
+RUN ./publish.sh
 
 # Run
-WORKDIR /Vending-Machine/build/linux
+WORKDIR /Vending-Machine/build/macos-cli
 # RUN dotnet dev-certs https
-ENTRYPOINT ["./Machine.API"]
+ENTRYPOINT ["./vmachine"]
 #ENTRYPOINT ["sh"]
 
  
