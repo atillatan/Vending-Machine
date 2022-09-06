@@ -1,10 +1,10 @@
 {
   "Serilog": {
     "Using": ["Serilog.Sinks.Console", "Serilog.Sinks.File" ],
-    "MinimumLevel": "Information",
+    "MinimumLevel": "Error",
     "Override" : {
-      "Microsoft" : "Information",
-      "System" : "Warning"
+      "Microsoft" : "Error",
+      "System" : "Error"
     },
     "WriteTo": [
       {"Name": "Console"}, 

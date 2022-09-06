@@ -141,9 +141,9 @@ DispenseItem = 2
 
 ## Sequence Diagram
  
-![assets/vending-machine.jpg](docs/assets/sequence-diagram.png)
-![assets/vending-machine.jpg](docs/assets/sequence-diagram-2.png)
-![assets/vending-machine.jpg](docs/assets/sequence-diagram-3.png)
+![assets/vending-machine.jpg](docs/assets/sequence-diagram-1.png)
+![assets/vending-machine.jpg](docs/assets/sequence-diagram--2.png)
+![assets/vending-machine.jpg](docs/assets/sequence-diagram--3.png)
 
  ## Project Directory Structure
 

@@ -14,12 +14,12 @@ using Serilog.Events;
 IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + "/appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"{Directory.GetCurrentDirectory()}/config/logger.Development.json", optional: false, reloadOnChange: true)
             .AddEnvironmentVariables()
             .Build();
 
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Error()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Error)   
+    .ReadFrom.Configuration(configuration, sectionName: "Serilog")  
     .CreateLogger();
 
 // Create ServiceCollection for required services
