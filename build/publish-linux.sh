@@ -74,7 +74,6 @@ dotnet pack src/Machine.API --include-source --output build/nuget --verbosity n 
 @echo "Publish API started..."
 dotnet publish src/Machine.API -r linux-x64 --self-contained -c $BUILD_CONFIGURATION --output "build/linux-api"
 
-cd ..
 cp -Rp config build/linux-cli
 cp -Rp config build/linux-api
 cd build

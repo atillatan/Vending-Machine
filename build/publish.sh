@@ -73,10 +73,9 @@ dotnet pack src/Machine.API --include-source --output build/nuget --verbosity n 
 @echo "Publish API started..."
 dotnet publish src/Machine.API -r osx-x64 --self-contained -c $BUILD_CONFIGURATION --output "build/macos-api"
 
-cd ..
 cp -R config build/macos-cli
 cp -R config build/macos-api
-cd build
+
 
 echo $BUILD_VERSION > version.json
 mv version.json build/macos-cli
