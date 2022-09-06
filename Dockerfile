@@ -16,13 +16,18 @@ COPY . .
 
 # Publish 
 WORKDIR /Vending-Machine/build
-RUN chmod +x publish.sh
-RUN ./publish.sh
+RUN chmod +x publish-linux.sh
+RUN ./publish-linux.sh
 
 # Run
-WORKDIR /Vending-Machine/build/macos-cli
+WORKDIR /Vending-Machine/build/linux-cli
 # RUN dotnet dev-certs https
-ENTRYPOINT ["./vmachine"]
-#ENTRYPOINT ["sh"]
+# ENTRYPOINT ["./vmachine"]
+ENTRYPOINT ["sh"]
 
- 
+# Docker Commands
+# 1. create image
+#   $ docker build -t vmachine -f Dockerfile .
+# 2. create/run container
+#   $ docker create --name vmachine1 vmachine
+#   $ docker run --rm -d --name vmachine1 -h vmachine1 -t vmachine:latest

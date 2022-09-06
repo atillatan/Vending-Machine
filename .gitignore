@@ -464,3 +464,5 @@ $RECYCLE.BIN/
 /build/windows-cli/*
 /build/macos-api/*
 /build/macos-cli/*
+/build/linux-api/*
+/build/linux-cli/*
