@@ -458,4 +458,7 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/build/*
+/build/machine-cli-nuget/*
+/build/nuget/*
+/build/windows-api/*
+/build/windows-cli/*
