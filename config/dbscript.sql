@@ -62,13 +62,16 @@ INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 3, 'EUR', '0.65'
 INSERT INTO PRODUCT_PRICE (ProductId, CurrencyId, Price) SELECT 3, 'USD', '0.65' WHERE NOT EXISTS (SELECT 1 FROM PRODUCT_PRICE WHERE ProductId = 1 and CurrencyId='USD' and ProductId=3); 
 
 
-INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','INSERT_COIN', 'INSERT COIN' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'INSERT_COIN');
-INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','AMOUNT_ENTERED', 'Amount entered' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'AMOUNT_ENTERED');
-INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','REMAINING_AMOUNT', 'Remaining amount' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'REMAINING_AMOUNT');
-INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','SELECTED_PRODUCT', 'Selected product' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'SELECTED_PRODUCT');
-INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','PLEASE_TAKE_YOUR_CHANGE', 'Please take your change' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'PLEASE_TAKE_YOUR_CHANGE');
-INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','THANK_YOU', 'THANK YOU' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'THANK_YOU');
-INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','RETURNED_MONEY', 'Returned money' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'RETURNED_MONEY');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','INSERT_COIN',              'INSERT COIN' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'INSERT_COIN');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','AMOUNT_ENTERED',           'Amount entered' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'AMOUNT_ENTERED');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','REMAINING_AMOUNT',         'Remaining amount' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'REMAINING_AMOUNT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','SELECTED_PRODUCT',         'Selected product' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'SELECTED_PRODUCT');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','PLEASE_TAKE_YOUR_CHANGE',  'Please take your change' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'PLEASE_TAKE_YOUR_CHANGE');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','THANK_YOU',                'THANK YOU' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'THANK_YOU');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','RETURNED_MONEY',           'Returned money' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'RETURNED_MONEY');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','PLEASE',                   'Please' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'PLEASE');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','PLEASE_PROVIDE_VALID_COMMAND','Please provide a valid command' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'PLEASE_PROVIDE_VALID_COMMAND');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'EN','PLEASE_PROVIDE_VALID_COMMAND_PARAMETER','Please provide a valid command parameter' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='EN' and MessageKey = 'PLEASE_PROVIDE_VALID_COMMAND_PARAMETER');
 
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','INSERT_COIN',              'MÜNZE EINFÜGEN.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'INSERT_COIN');
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','AMOUNT_ENTERED',           'Eingegebener Betrag.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'AMOUNT_ENTERED');
@@ -77,6 +80,9 @@ INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','SELECTED_PRODU
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','PLEASE_TAKE_YOUR_CHANGE',  'Bitte nehmen Sie Ihr Wechselgeld.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'PLEASE_TAKE_YOUR_CHANGE');
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','THANK_YOU',                'DANKESCHÖN.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'THANK_YOU');
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','RETURNED_MONEY',           'Zurückgegebenes Geld.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'RETURNED_MONEY'); 
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','PLEASE',                   'Bitte' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'PLEASE');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','PLEASE_PROVIDE_VALID_COMMAND','Bitte geben Sie einen gültigen Befehl an' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'PLEASE_PROVIDE_VALID_COMMAND');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'DE','PLEASE_PROVIDE_VALID_COMMAND_PARAMETER','Bitte geben Sie einen gültigen Befehlsparameter an' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='DE' and MessageKey = 'PLEASE_PROVIDE_VALID_COMMAND_PARAMETER');
 
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','INSERT_COIN',              'INSERT COIN.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'INSERT_COIN');
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','AMOUNT_ENTERED',           'Montant saisi.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'AMOUNT_ENTERED');
@@ -85,3 +91,6 @@ INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','SELECTED_PRODU
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','PLEASE_TAKE_YOUR_CHANGE',  'Veuillez prendre votre monnaie.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'PLEASE_TAKE_YOUR_CHANGE');
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','THANK_YOU',                'MERCI' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'THANK_YOU');
 INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','RETURNED_MONEY',           'Retour de l"argent.' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'RETURNED_MONEY'); 
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','PLEASE',                   'Veuillez' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'PLEASE');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','PLEASE_PROVIDE_VALID_COMMAND','Veuillez fournir une commande valide' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'PLEASE_PROVIDE_VALID_COMMAND');
+INSERT INTO LANGUAGE (LanguageId,MessageKey,Message) SELECT 'FR','PLEASE_PROVIDE_VALID_COMMAND_PARAMETER','Veuillez fournir un paramètre de commande valide' WHERE NOT EXISTS (SELECT 1 FROM LANGUAGE WHERE LanguageId='FR' and MessageKey = 'PLEASE_PROVIDE_VALID_COMMAND_PARAMETER');

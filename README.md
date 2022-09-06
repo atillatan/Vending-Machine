@@ -6,6 +6,31 @@
 Table of Contents
 ------------------
 
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Vending Machine Software Design Description](#vending-machine-software-design-description)
+  - [Use Case List:](#use-case-list)
+    - [Customer Use Case](#customer-use-case)
+    - [Machine Use Case](#machine-use-case)
+  - [Vending Machine States](#vending-machine-states)
+  - [Domain Objects, Entities](#domain-objects-entities)
+  - [Common Errors](#common-errors)
+  - [Data Structure](#data-structure)
+  - [Overview](#overview)
+  - [Sequence Diagram](#sequence-diagram)
+  - [Usage](#usage)
+    - [Build](#build)
+    - [Default Configuration](#default-configuration)
+    - [Start](#start)
+  - [Designing internal architecture of VendingMachine](#designing-internal-architecture-of-vendingmachine)
+
+<!-- /code_chunk_output -->
+
+
+
 ## Use Case List:
 
 ### Customer Use Case
@@ -117,6 +142,8 @@ DispenseItem = 2
 ## Sequence Diagram
  
 ![assets/vending-machine.jpg](docs/assets/sequence-diagram.png)
+![assets/vending-machine.jpg](docs/assets/sequence-diagram-2.png)
+![assets/vending-machine.jpg](docs/assets/sequence-diagram-3.png)
 
  ## Project Directory Structure
 
@@ -148,6 +175,94 @@ DispenseItem = 2
 
 References: https://docs.microsoft.com/en-us/dotnet/core/porting/project-structure
 https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio
+
+
+## Usage 
+
+
+### Build
+
+Windows build & publish script: publish.cmd
+Linux  build & publish script: publish.sh
+MacOS  build & publish script: publish.sh
+
+usage:
+```shell
+
+Windows:
+/> publish.cmd
+
+Linux & Macos:
+$ ./publish.sh
+
+```
+### Default Configuration
+
+Vending Machine starts with following configuration
+
+windows:
+CLI Application config file : /build/windows-cli/appsettings.json 
+API Application config file : /build/windows-api/appsettings.json 
+
+linux:
+CLI Application config file : /build/linux-cli/appsettings.json 
+API Application config file : /build/linux-api/appsettings.json 
+
+macos:
+CLI Application config file : /build/macos-cli/appsettings.json
+API Application config file : /build/macos-api/appsettings.json
+
+Note:
+src: Machine.CLI/appsettings.json
+src: Machine.API/appsettings.json
+
+```json
+{
+  "name": "Vending Machine",
+  "version": "1.0.0",
+  "languages": ["DE", "FR", "EN"],
+  "default.language": "EN",
+  "currencies"  :["EUR", "USD"],
+  "default.currency": "EUR",
+  "database.providername": "System.Data.SQLite",
+  "database.connectionString": "Data Source=config/VendingMachine.db;"
+}
+
+```
+
+### Start
+
+command name : `vmachine`
+
+Windows: /build/windows-cli
+
+```shell
+
+$ vmachine.exe --help
+OR
+$ vmachine.exe --language DE
+OR
+$ vmachine.exe --currency EUR
+OR
+$ vmachine.exe --language DE --currency EUR
+
+```
+
+Linux : /build/linux-cli
+Macos : /build/macos-cli
+ 
+```shell
+
+$ ./vmachine --help
+OR
+$ ./vmachine --language DE
+OR
+$ ./vmachine --currency EUR
+OR
+$ ./vmachine --language DE --currency EUR
+
+```
+ 
 
 ## Designing internal architecture of VendingMachine
 

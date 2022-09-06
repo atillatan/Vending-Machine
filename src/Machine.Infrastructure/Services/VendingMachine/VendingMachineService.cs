@@ -1,4 +1,4 @@
-using Machine.Application.Common.Dto;
+using Machine.Application.Products;
 using Machine.Application.Common.Exceptions;
 using Machine.Application.Common.Interface;
 using Machine.Domain.Entities;
@@ -80,7 +80,7 @@ public class VendingMachineService : IVendingMachine
         this.CurrentBalance += coin;
 
         // Add tho to the coinInventory
-        this._coinInventory[coin] += 1;
+        this._coinInventory[coin] += 1;        
     }
 
     public Dictionary<decimal, int> ReturnCustomerCoins()
@@ -132,6 +132,7 @@ public class VendingMachineService : IVendingMachine
             }
         }
         this.CurrentBalance = 0;
+        // _dbContext.SaveChanges();
         return change;
     }
 

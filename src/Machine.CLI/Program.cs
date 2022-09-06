@@ -1,17 +1,12 @@
 ﻿
-global using System;
-global using System.Linq;
-global using System.Collections.Generic;
-global using System.Threading;
-global using System.CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Machine.Application.Common.Interface;
 using Machine.Infrastructure.Services;
-using vmachine;
 using Machine.Infrastructure.Persistence;
 using Machine.Application.Common.Interfaces;
 using Machine.Infrastructure.Services.Languages;
+using vmachine;
 
 // Initialize Configuration
 IConfiguration configuration = new ConfigurationBuilder()
@@ -25,8 +20,7 @@ ServiceProvider svcProvider = new ServiceCollection()
                 .AddSingleton<IConfiguration>(configuration)
                 .AddDbContext<ApplicationDbContext>()
                 .AddSingleton<ILanguageService>(x => new LanguageService(configuration, x.GetService<ApplicationDbContext>()!))
-                .AddSingleton<IVendingMachine>(x => new VendingMachineService(configuration, x.GetService<ApplicationDbContext>()!))
-                //.AddMediatR(typeof(TimeEntryCreateCommand))
+                .AddSingleton<IVendingMachine>(x => new VendingMachineService(configuration, x.GetService<ApplicationDbContext>()!))                
                 .BuildServiceProvider();
 
 // Build RootCommand

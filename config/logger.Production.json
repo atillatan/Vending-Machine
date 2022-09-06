@@ -1,0 +1,36 @@
+{
+  "Serilog": {
+    "Using": ["Serilog.Sinks.Console", "Serilog.Sinks.File" ],
+    "MinimumLevel": "Information",
+    "Override" : {
+      "Microsoft" : "Information",
+      "System" : "Warning"
+    },
+    "WriteTo": [
+      {"Name": "Console"}, 
+      {"Name": "File", "Args": { "path": "config/logs/log.log", "rollOnFileSizeLimit": true, "fileSizeLimitBytes": 10000000, "retainedFileCountLimit": 10, "rollingInterval": "Day" } },      
+      {"Name": "Seq", "Args": { "serverUrl": "http://localhost:5341" } },
+      {"Name": "Logger",
+        "Args": { "configureLogger": { 
+          "WriteTo": [ 
+              {
+                "Name": "File",
+                "Args": { "path": "config/logs/error.log", "rollOnFileSizeLimit": true, "fileSizeLimitBytes": 10000000, "retainedFileCountLimit": 10, "rollingInterval": "Day"}
+              }              
+            ],
+            "Filter": [
+              {
+                "Name": "ByIncludingOnly",
+                "Args": { "expression": "@Level = 'Error'" }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Enrich": ["FromLogContext", "WithMachineName", "WithThreadId" ],
+    "Properties": {
+      "Application": "VendingMachine"
+    }
+  }
+}

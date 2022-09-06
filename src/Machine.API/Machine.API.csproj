@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <Authors>Atilla Tanrikulu</Authors>
+    <Company>Atilla Tanrikulu</Company>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>    
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.2" />
+  </ItemGroup>
+
+    <ItemGroup>
+    <ProjectReference Include="../Machine.Application/Machine.Application.csproj" />
+    <ProjectReference Include="../Machine.Infrastructure/Machine.Infrastructure.csproj" />
+  </ItemGroup>
+
+
+</Project>

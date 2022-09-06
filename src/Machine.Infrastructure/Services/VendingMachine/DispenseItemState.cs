@@ -1,7 +1,6 @@
-using Machine.Application.Common.Dto;
+using Machine.Application.Products;
 using Machine.Application.Common.Exceptions;
 using Machine.Application.Common.Interface;
-using Machine.Domain.Entities;
 
 namespace Machine.Infrastructure.Services.VendingMachine;
 

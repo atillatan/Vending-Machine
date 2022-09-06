@@ -17,6 +17,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+   <Using Include="System" />   
+   <Using Include="System.Linq" />
+   <Using Include="System.Collections.Generic" />
+   <Using Include="System.CommandLine" />
+   <Using Include="System.Threading" />
+   <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+  <ItemGroup>
       <PackageReference Include="MediatR" Version="10.0.1" />
       <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>

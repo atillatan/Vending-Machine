@@ -1,5 +1,5 @@
 
-using Machine.Application.Common.Dto;
+using Machine.Application.Products;
 using Machine.Domain.Entities;
 
 namespace Machine.Application.Common.Interface;

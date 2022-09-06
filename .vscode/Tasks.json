@@ -1,31 +1,70 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {            
-            "label": "publish",
-            "type": "shell",
-            "command": "dotnet",
-            "args": [         
-                "publish",       
-                "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",               
-                "-o", "build/macos"
-            ]
-        }
-    ]
-} 
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "build-api",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/Machine.API/vmachine.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "publish-macos",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "publish",
+        "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",
+        "-o",
+        "build/macos"
+      ]
+    },
+    {
+      "label": "publish-linux",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "publish",
+        "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",
+        "-o",
+        "build/linux"
+      ]
+    },
+    {
+      "label": "publish-windows",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "publish",
+        "${workspaceFolder}/src/Machine.CLI/vmachine.csproj",
+        "-o",
+        "build/windows"
+      ]
+    }
+  ]
+}

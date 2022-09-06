@@ -13,7 +13,49 @@
             "args": [],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
-            "stopAtEntry": false
+            "stopAtEntry": false            
+        },
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/Machine.API/bin/Debug/net6.0/Machine.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Machine.API",
+            
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8100;https://localhost:8101",
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "launchBrowser": {
+                "enabled": true,
+                "launchUrl": "https://localhost:8101/swagger/index.html",
+                "args": "https://localhost:8101/swagger/index.html",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start http://localhost:8100/swagger/index.html"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            }
         },
         {
             "name": ".NET Core Attach",

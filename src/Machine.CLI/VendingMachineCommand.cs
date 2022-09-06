@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Machine.Application.Common.Dto;
+using Machine.Application.Products;
 using Machine.Application.Common.Interface;
 using Machine.Application.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +13,8 @@ public class VendingMachineCommand
 
     private IConfiguration? _configuration { get; set; }
 
+    private ILanguageService _langSvc { get; set; } = default!;
+
     public VendingMachineCommand(ServiceProvider serviceProvider)
     {
         this._svcProvider = serviceProvider;
@@ -20,7 +22,7 @@ public class VendingMachineCommand
     }
 
     /// <summary>
-    /// Build the new RootCommand for CLI application
+    /// Creates the new RootCommand for CLI application
     /// </summary>
     /// <returns>RootCommand</returns>
     public RootCommand BuildRootCommand()
@@ -60,7 +62,7 @@ public class VendingMachineCommand
     private void Run(string language, string currency, CancellationToken cancellationToken)
     {
         Console.WriteLine("***********************************************************");
-        Console.WriteLine("******************* VENDING MACHINE STARTED  **************");
+        Console.WriteLine("******************* WELCOME TO VENDING MACHINE  ***********");
         Console.WriteLine("***********************************************************");
         Console.WriteLine("                                                           ");
 
@@ -80,14 +82,16 @@ public class VendingMachineCommand
                             .UseLanguage(defaultLanguage)
                             .UseCurrency(defaultCurrency);
 
-            var langSvc = _svcProvider!.GetRequiredService<ILanguageService>()
+            this._langSvc = _svcProvider!.GetRequiredService<ILanguageService>()
                              .UseLanguage(defaultLanguage);
 
 
-            Console.WriteLine($"Please \"{langSvc.Translate("INSERT_COIN")}\", for help please enter \"HELP\" ");
+            Console.WriteLine($"Please \"{_langSvc.Translate("INSERT_COIN")}\", for help please enter \"HELP\" ");
 
-            // Loop until transaction is completed
-            while (true)
+            // Loop until shutdown
+            bool isRunning = true;
+
+            while (isRunning)
             {
                 string userInput = WaitValidUserInput();
                 string enteredCommand = GetEnteredCommand(userInput);
@@ -102,9 +106,9 @@ public class VendingMachineCommand
                             PrintProducts(vendingMachine.Show(), defaultCurrency);
 
                             if (vendingMachine.CurrentBalance > 0)
-                                Console.WriteLine($"{langSvc.Translate("AMOUNT_ENTERED")}: {vendingMachine.CurrentBalance}{defaultCurrency}");
+                                Console.WriteLine($"{_langSvc.Translate("AMOUNT_ENTERED")}: {vendingMachine.CurrentBalance} {defaultCurrency}");
                             else
-                                Console.WriteLine(langSvc.Translate("INSERT_COIN"));
+                                Console.WriteLine(_langSvc.Translate("INSERT_COIN"));
                             break;
 
                         case "ENTER": // READY, ACCEPTCOIN
@@ -112,21 +116,21 @@ public class VendingMachineCommand
                             vendingMachine.EnterCoin(enteredCoin);
 
                             if (vendingMachine.CurrentBalance > 0)
-                                Console.WriteLine($"{langSvc.Translate("AMOUNT_ENTERED")}: {vendingMachine.CurrentBalance}{defaultCurrency}");
+                                Console.WriteLine($"{_langSvc.Translate("AMOUNT_ENTERED")}: {vendingMachine.CurrentBalance} {defaultCurrency}");
                             else
-                                Console.WriteLine(langSvc.Translate("INSERT_COIN"));
+                                Console.WriteLine(_langSvc.Translate("INSERT_COIN"));
                             break;
 
                         case "SELECT": // ACCEPTCOIN
                             int selectedProduct = GetIntParamFromCommand(userInput);
-                            Console.WriteLine($"Product {selectedProduct} selected!");
+                            Console.WriteLine($"{_langSvc.Translate("SELECTED_PRODUCT")}: {selectedProduct}");
                             var coins = vendingMachine.Select(selectedProduct);
                             decimal sumCoin = coins.Sum(x => x.Key * x.Value);
 
                             if (sumCoin > 0)
-                                Console.WriteLine($"{langSvc.Translate("PLEASE_TAKE_YOUR_CHANGE")}: {sumCoin}{defaultCurrency},{langSvc.Translate("THANK_YOU")}!");
+                                Console.WriteLine($"{_langSvc.Translate("PLEASE_TAKE_YOUR_CHANGE")}: {sumCoin} {defaultCurrency},{_langSvc.Translate("THANK_YOU")}!");
                             else
-                                Console.WriteLine(langSvc.Translate("THANK_YOU"));
+                                Console.WriteLine(_langSvc.Translate("THANK_YOU"));
                             break;
 
                         case "RETURNCOINS": // ACCEPTCOIN
@@ -134,14 +138,19 @@ public class VendingMachineCommand
                             decimal sumReturnedCoins = returnedCoins.Sum(x => x.Key * x.Value);
 
                             if (sumReturnedCoins > 0)
-                                Console.WriteLine($"{langSvc.Translate("PLEASE_TAKE_YOUR_CHANGE")}: {sumReturnedCoins}{defaultCurrency}");
+                                Console.WriteLine($"{_langSvc.Translate("PLEASE_TAKE_YOUR_CHANGE")}: {sumReturnedCoins} {defaultCurrency}");
                             else
-                                Console.WriteLine(langSvc.Translate("INSERT_COIN"));
+                                Console.WriteLine(_langSvc.Translate("INSERT_COIN"));
                             break;
 
                         case "HELP":
                             PrintHelp();
                             break;
+
+                        case "EXIT":
+                            isRunning = false;
+                            break;
+
                         default:
                             if (enteredCommand.Length < 3)
                                 Console.WriteLine("Please enter command first e.g. COMMAND <XXX>.  ENTER 0.65");
@@ -181,7 +190,8 @@ public class VendingMachineCommand
             || input.StartsWith("SELECT")
             || input.Equals("SHOW")
             || input.Equals("RETURNCOINS")
-            || input.Equals("HELP"))
+            || input.Equals("HELP")
+            || input.Equals("EXIT"))
         {
             return input;
         }
@@ -204,6 +214,8 @@ public class VendingMachineCommand
             return "RETURNCOINS";
         else if (input.StartsWith("HELP"))
             return "HELP";
+        else if (input.StartsWith("EXIT"))
+            return "EXIT";
         else
             return "UNKNOWN";
     }
@@ -218,7 +230,8 @@ public class VendingMachineCommand
         Console.WriteLine("  SHOW        : Then list of products. e.g SHOW");
         Console.WriteLine("  SELECT      : Choose which product do you want to buy. e.g SELECT <NUMBER> , SELECT 2");
         Console.WriteLine("  ENTER       : Enter valid coins (5cts to 2€). ENTER <XXX> e.g. : ENTER 0.65");
-        Console.WriteLine("  RETURNCOINS : RETURNCOINS");
+        Console.WriteLine("  RETURNCOINS : the money the customer has placed in the machine is returned indicating returned money");
+        Console.WriteLine("  EXIT        : Exit from Vending Machine");
     }
 
     private void PrintProducts(List<ProductDto> productList, string currency)
@@ -232,22 +245,22 @@ public class VendingMachineCommand
     private decimal GetDecimalParamFromCommand(string command)
     {
         if (!command.Contains(" ") || command.Split(' ')[1] == null)
-            throw new ArgumentException("Please provide a valid command parameter");
+            throw new ArgumentException(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
 
         decimal result;
         if (!decimal.TryParse(command.Split(' ')[1], out result))
-            throw new ArgumentException("Please provide a valid command parameter");
+            throw new ArgumentException(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
 
         return result;
     }
     private int GetIntParamFromCommand(string command)
     {
         if (!command.Contains(" ") || command.Split(' ')[1] == null)
-            throw new ArgumentException("Please provide a valid command parameter");
+            throw new ArgumentException(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
 
         int result;
         if (!int.TryParse(command.Split(' ')[1], out result))
-            throw new ArgumentException("Please provide a valid command parameter");
+            throw new ArgumentException(_langSvc.Translate("PLEASE_PROVIDE_VALID_COMMAND"));
 
         return result;
     }
