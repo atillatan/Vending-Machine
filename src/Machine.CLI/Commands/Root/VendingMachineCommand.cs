@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Machine.Commands.Root;
 
-public class VendingMachineCommand
+public class VendingMachineCommand : IDisposable
 {
     private IServiceProvider? _svcProvider { get; set; } = default!;
 
@@ -54,5 +54,15 @@ public class VendingMachineCommand
             languageOption, currencyOption);
 
         return rootCommand;
+    }
+
+    ~VendingMachineCommand()
+    {
+        Dispose();
+    }
+
+    public void Dispose()
+    {         
+        GC.SuppressFinalize(this);
     }
 }
