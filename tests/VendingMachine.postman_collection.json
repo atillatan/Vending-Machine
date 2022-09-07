@@ -1,0 +1,378 @@
+{
+	"info": {
+		"_postman_id": "9f762f86-4fff-4f94-b926-18a844e7dc5f",
+		"name": "VendingMachine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14797044"
+	},
+	"item": [
+		{
+			"name": "Language",
+			"item": [
+				{
+					"name": "PostLanguage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"languageId\": \"en\",\n  \"messageKey\": \"aaaa\",\n  \"message\": \"aaa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/Language/PostLanguage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Language",
+								"PostLanguage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutLanguage",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"languageId\": \"en\",\n  \"messageKey\": \"aaaa\",\n  \"message\": \"aaadsda\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/Language/PutLanguage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Language",
+								"PutLanguage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteLanguage",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Language/DeleteLanguage/EN/test1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Language",
+								"DeleteLanguage",
+								"EN",
+								"test1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllLanguage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Language/GetAllLanguage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Language",
+								"GetAllLanguage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLanguage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Language/GetLanguage/EN/AMOUNT_ENTERED",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Language",
+								"GetLanguage",
+								"EN",
+								"AMOUNT_ENTERED"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLanguageByCode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Language/GetLanguageByCode/EN",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Language",
+								"GetLanguageByCode",
+								"EN"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Post Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"slotId\": \"C1\",\n  \"productId\": 4,\n  \"productName\": \"NewProduct\",\n  \"remainingStock\": 10,\n  \"capacity\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/Product/PostProduct",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Product",
+								"PostProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"slotId\": \"C1\",\n  \"productId\": 4,\n  \"productName\": \"NewProduct\",\n  \"remainingStock\": 10,\n  \"capacity\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/Product/PutProduct",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Product",
+								"PutProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Product/DeleteProduct/EN/test1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Product",
+								"DeleteProduct",
+								"EN",
+								"test1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Product/GetAllProduct",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Product",
+								"GetAllProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Product/GetProduct/A1/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Product",
+								"GetProduct",
+								"A1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coin",
+			"item": [
+				{
+					"name": "Post Coin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coinId\": 0.01,\n  \"count\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/Coin/PostCoin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Coin",
+								"PostCoin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put  Coin",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coinId\": 0.10,\n  \"count\": 12\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/Coin/PutCoin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Coin",
+								"PutCoin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Coin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Coin/DeleteCoin/0.01",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Coin",
+								"DeleteCoin",
+								"0.01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll  Coin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/Coin/GetAllCoin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Coin",
+								"GetAllCoin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  Coin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ Coin/GetCoin/0.05",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								" Coin",
+								"GetCoin",
+								"0.05"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
