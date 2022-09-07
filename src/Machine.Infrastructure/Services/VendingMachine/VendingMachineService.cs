@@ -50,7 +50,9 @@ public class VendingMachineService : IVendingMachine
                         {
                             ProductId = g.Key,
                             ProductName = g.Select(a => a.ProductName).FirstOrDefault()!,
-                            ProductPrice = this._productPrices!.Where(b => b.ProductId == g.Key && b.CurrencyId == this._currency).FirstOrDefault<ProductPrice>()!.Price,
+                            ProductPrice = this._productPrices!.Where(b => b.ProductId == g.Key && b.CurrencyId == this._currency).FirstOrDefault<ProductPrice>() != null
+                                          ? this._productPrices.Where(b => b.ProductId == g.Key && b.CurrencyId == this._currency).FirstOrDefault<ProductPrice>()!.Price 
+                                          : null,
                             RemainingStock = g.Sum(b => b.RemainingStock),
                             Capacity = g.Sum(c => c.Capacity)
                         };
